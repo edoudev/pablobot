@@ -1,0 +1,6 @@
+{
+    "command": ".pablo",
+    "cooldownTime": 30000,
+    "cooldownMessage": "Att 30sec pablo fait sa toilette",
+    "token": "put the discord bot token here"
+}
