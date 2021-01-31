@@ -2,10 +2,11 @@ const { Client, MessageAttachment } = require("discord.js");
 const client = new Client();
 const config = require("./config.json");
 const fs = require("fs");
-const pictures = fs.readdirSync("./resources/");
+
+const files = fs.readdirSync("./resources/");
 const cooldown = new Set();
 
-var lastPictures = [];
+let pictures = files;
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -26,12 +27,8 @@ client.on("message", (msg) => {
 
   let chosenPic = pictures[Math.floor(Math.random() * pictures.length)];
 
-  while (lastPictures.includes(chosenPic)) {
-    chosenPic = pictures[Math.floor(Math.random() * pictures.length)];
-  }
-
-  if (lastPictures.length >= 5) lastPictures.shift();
-  lastPictures.push(chosenPic);
+  pictures = pictures.filter((e) => e !== chosenPic);
+  if (pictures.length <= 0) pictures = files;
 
   let pic = new MessageAttachment("./resources/" + chosenPic);
   msg.channel.send(pic);
