@@ -3,7 +3,9 @@ const client = new Client();
 const config = require("./config.json");
 const fs = require("fs");
 
-const files = fs.readdirSync("./resources/");
+const files = fs
+  .readdirSync("./resources/")
+  .filter((e) => e.endsWith(".jpg") || e.endsWith(".png"));
 const cooldown = new Set();
 
 let pictures = files;
