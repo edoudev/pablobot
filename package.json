@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "discord.js": "^12.5.1"
+    "discord.js": "^14.14.1",
+    "lodash": "^4.17.21"
   }
 }
