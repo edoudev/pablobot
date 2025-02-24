@@ -11,13 +11,17 @@ const config = require("./config.json");
 const fs = require("fs");
 const _ = require("lodash");
 
-// const files = fs
-//   .readdirSync("./resources/")
-//   .filter((e) => ['.png','.jpg','.mov','.mp4'].some(extension => e.endsWith(extension)));
 const cooldown = new Set();
 
-var pictures = [];
-var picturesQueue = [];
+const files = fs
+  .readdirSync("./resources/")
+  .filter((e) =>
+    [".png", ".jpg", ".mov", ".mp4"].some((extension) =>
+      e.toLowerCase().endsWith(extension)
+    )
+  );
+
+let picturesQueue = _.shuffle(files);
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -37,13 +41,9 @@ client.on("messageCreate", (msg) => {
   }, config.cooldownTime);
 
   let picture = picturesQueue.shift();
-  msg.reply({ files: [picture] });
+  msg.reply({ files: ["./resources/" + picture] });
 
-  if (picturesQueue.length == 0) picturesQueue = _.shuffle(pictures);
+  if (picturesQueue.length == 0) picturesQueue = _.shuffle(files);
 });
 
-files = _.map(fs.readdirSync('./resources'), (file) => './resources/' + file);
-pictures = pictures.concat(files);
-
-picturesQueue = _.shuffle(pictures);
 client.login(config.token);
