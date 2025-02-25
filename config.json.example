@@ -2,5 +2,9 @@
     "command": ".pablo",
     "cooldownTime": 30000,
     "cooldownMessage": "Att 30sec pablo fait sa toilette",
-    "token": "put the discord bot token here"
+    "token": "REPLACE_DISCORD_TOKEN",
+    "addNewResources": {
+        "roleIDS": ["OPTIONNAL_ROLE_IDS"],
+        "userIDS": ["OPTIONNAL_USER_IDS"]
+    }
 }

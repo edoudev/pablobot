@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, MessageAttachment } = require("discord.js");
+const { Client, GatewayIntentBits } = require("discord.js");
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -9,6 +9,7 @@ const client = new Client({
 });
 const config = require("./config.json");
 const fs = require("fs");
+const https = require("https");
 const _ = require("lodash");
 
 const cooldown = new Set();
@@ -30,11 +31,50 @@ client.on("ready", () => {
 client.on("messageCreate", (msg) => {
   if (!msg.content.startsWith(config.command) || msg.author.bot) return;
 
+  // skip user if has cooldown
   if (cooldown.has(msg.author.id)) {
     msg.channel.send(config.cooldownMessage);
     return;
   }
 
+  // Add attachments to resources if user is allowed from his id or role
+  if (
+    msg.attachments.size > 0 &&
+    (config.addNewResources.userIDS.includes(msg.author.id) ||
+      msg.member.roles.cache.some((role) =>
+        config.addNewResources.roleIDS.includes(role.id)
+      ))
+  ) {
+    const filteredAttachements = msg.attachments.filter((attachment) =>
+      [".png", ".jpg", ".mov", ".mp4"].some((extension) =>
+        attachment.name.toLowerCase().endsWith(extension)
+      )
+    );
+
+    filteredAttachements.forEach((attachment) => {
+      let writeStream = fs.createWriteStream("./resources/" + attachment.name);
+      https.get(attachment.url, (r) => {
+        r.on("end", () => writeStream.end());
+
+        r.pipe(writeStream);
+      });
+    });
+
+    files.push(...filteredAttachements.map((attachment) => attachment.name));
+
+    picturesQueue = _.shuffle(
+      _.concat(
+        picturesQueue,
+        filteredAttachements.map((attachment) => attachment.name)
+      )
+    );
+
+    msg.react("👍");
+
+    return;
+  }
+
+  // cooldown user
   cooldown.add(msg.author.id);
   setTimeout(() => {
     cooldown.delete(msg.author.id);
