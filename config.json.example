@@ -1,7 +1,8 @@
 {
-    "command": ".pablo",
+    "command": "pablo",
     "cooldownTime": 30000,
     "cooldownMessage": "Att 30sec pablo fait sa toilette",
+    "clientID": "REPLACE_CLIENT_ID",
     "token": "REPLACE_DISCORD_TOKEN",
     "addNewResources": {
         "roleIDS": ["OPTIONNAL_ROLE_IDS"],

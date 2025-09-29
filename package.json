@@ -1,6 +1,7 @@
 {
+  "name": "pablobot",
+  "main": "index.js",
   "dependencies": {
-    "discord.js": "^14.14.1",
-    "lodash": "^4.17.21"
+    "discord.js": "^14.22.1"
   }
 }
