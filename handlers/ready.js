@@ -1,15 +1,16 @@
-const {
-  Events,
-  REST,
-  Routes,
-  SlashCommandBuilder,
-} = require("discord.js");
+const { Events, REST, Routes, SlashCommandBuilder } = require("discord.js");
 const { clientID, token, command } = require("../config.json");
 
 module.exports = (client) => {
   const slashCommand = new SlashCommandBuilder()
     .setName(command)
-    .setDescription("meow meow meow");
+    .setDescription("meow meow meow")
+    .addAttachmentOption((option) =>
+      option
+        .setName("attachment")
+        .setDescription("Add new resource")
+        .setRequired(false)
+    );
 
   const rest = new REST({ version: "10" }).setToken(token);
 

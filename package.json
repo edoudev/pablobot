@@ -2,6 +2,15 @@
   "name": "pablobot",
   "main": "index.js",
   "dependencies": {
-    "discord.js": "^14.22.1"
+    "discord.js": "^14.22.1",
+    "execa": "^9.6.0",
+    "ffmpeg-ffprobe-static": "6.1.2-rc.1",
+    "sharp": "^0.34.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "ffmpeg-ffprobe-static",
+      "sharp"
+    ]
   }
 }

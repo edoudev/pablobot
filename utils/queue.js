@@ -6,12 +6,16 @@ const resourcesPath = path.join(__dirname, "../resources");
 let files = fs
   .readdirSync(resourcesPath)
   .filter((e) =>
-    [".png", ".jpg", ".mov", ".mp4"].some((ext) => e.toLowerCase().endsWith(ext))
+    [".png", ".jpg", ".mov", ".mp4"].some((ext) =>
+      e.toLowerCase().endsWith(ext)
+    )
   );
 
-function shuffle(array) {
+const shuffle = (array) => {
   const arr = [...array];
-  let m = arr.length, t, i;
+  let m = arr.length,
+    t,
+    i;
 
   while (m) {
     i = Math.floor(Math.random() * m--);
@@ -22,15 +26,20 @@ function shuffle(array) {
   }
 
   return arr;
-}
+};
 
 let assetsQueue = shuffle(files);
 
-function getNextAsset() {
+const getNextAsset = () => {
   const asset = assetsQueue.shift();
   if (assetsQueue.length === 0) assetsQueue = shuffle(files);
 
   return path.join(resourcesPath, asset);
-}
+};
 
-module.exports = { getNextAsset };
+const addAsset = (newAsset) => {
+  files.push(newAsset);
+  assetsQueue = shuffle([...assetsQueue, newAsset]);
+};
+
+module.exports = { getNextAsset, addAsset };
